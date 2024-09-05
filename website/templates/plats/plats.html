@@ -1,0 +1,112 @@
+{% extends "index.html" %}
+
+{% block title %}
+    Liste des plats
+{% endblock title %}
+
+{% block navbar %}
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+  <div class="container-fluid py-1 px-3">
+
+
+    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+      <ul class="navbar-nav  justify-content-start">
+        <li class="nav-item d-flex align-items-center">
+          <a href="{% url 'plat:add_plat' %}" class="btn btn-outline-warning btn-sm mb-0 me-3" href="#">Ajouter un plat</a>
+        </li>
+      </ul>
+      <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+        <div class="input-group input-group-outline">
+          <label class="form-label">Recherche par nom</label>
+          <input type="text" name='name' class="form-control">
+          {% if results %}
+            <ul>
+                {% for result in results %}
+                    <li>{{ result.name }}</li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+          
+        </div>
+      </div>
+      <ul class="navbar-nav  justify-content-end">
+        <li class="nav-item d-flex align-items-center">
+          <button class="btn btn-outline-primary btn-sm mb-0 me-3">
+            <a href="{% url 'plat:search_plat' %}"> Recherche </a>
+           </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock navbar %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card my-4">
+      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 pb-3">
+          <h6 class="text-white text-capitalize ps-3">Liste des plats ( {{number_plat}}  )</h6>
+        </div>
+      </div>
+      <div class="card-body px-0 pb-2">
+        <div class="table-responsive p-0">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libelle</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 align-items-center"></th>
+              </tr>
+            </thead>
+            <tbody>
+
+
+              {% if plats %}
+              <tr>
+                {% for plat in plats %}
+
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{ plat.name }}</h6> 
+                      </div>
+                    </div>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <button class="badge badge-sm bg-gradient-success"><a href="{% url 'plat:update_plat' plat.id %}" > Modifier</a></button>
+                    <button class="badge badge-sm bg-gradient-danger"><a href="{% url 'plat:delete_plat' plat.id %}" > Supprimer</a></button>
+                  </td>
+                
+                {% endfor %}
+                
+              </tr>
+              
+              {% else %}
+
+              <tr>
+
+                <td colspan=3 >
+                  <div class="d-flex px-2 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">No Informations Yet</h6>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+
+  
